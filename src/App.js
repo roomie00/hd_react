@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 // URL 설정을 맨 위에 정의
-const BASE_URL = "http://localhost:8080"; // 여기에 API URL을 설정
+const BASE_URL = "http://hdserverelb-778609981.ap-northeast-2.elb.amazonaws.com:8080"; // 여기에 API URL을 설정
 
 const App = () => {
   const [members, setMembers] = useState([]);

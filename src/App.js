@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"; // React 및 훅 임포트
-import axios from "axios"; // axios 임포트
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 // URL 설정
 const BASE_URL = "http://hdserverelb-778609981.ap-northeast-2.elb.amazonaws.com:8080";
@@ -8,21 +8,21 @@ const App = () => {
   const [members, setMembers] = useState([]);
   const [idValue, setIdValue] = useState("");
   const [nameValue, setNameValue] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);  // 로딩 상태를 추적
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMembers = async () => {
-      setIsLoading(true);
-      setError(null);
+      setIsLoading(true); // 데이터 로딩 시작
+      setError(null); // 에러 초기화
       try {
         const response = await axios.get(`${BASE_URL}/members`);
-        setMembers(response.data);
+        setMembers(response.data); // 멤버 데이터 설정
       } catch (err) {
         console.error("Error fetching members:", err);
-        setError("Failed to load members. Please try again later.");
+        setError("Failed to load members. Please try again later."); // 에러 처리
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // 데이터 로딩 완료
       }
     };
 
@@ -35,14 +35,14 @@ const App = () => {
     setMembers((prevMembers) => [...prevMembers, newMember]);
 
     try {
-      await axios.post(`${BASE_URL}/members`, newMember);
+      await axios.post(`${BASE_URL}/members`, newMember); // 멤버 서버에 추가
     } catch (error) {
       console.error("Error adding member:", error);
-      setMembers((prevMembers) => prevMembers.filter((member) => member.id !== newMember.id));
+      setMembers((prevMembers) => prevMembers.filter((member) => member.id !== newMember.id)); // 서버 실패 시 롤백
     }
 
-    setIdValue("");
-    setNameValue("");
+    setIdValue(""); // ID 입력 필드 초기화
+    setNameValue(""); // Name 입력 필드 초기화
   };
 
   const styles = {
@@ -91,8 +91,10 @@ const App = () => {
   return (
     <div style={styles.container}>
       <h1>멤버 관리</h1>
-      {isLoading && <p>Loading members...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {isLoading && <p>Loading members...</p>}  {/* 로딩 중 메시지 */}
+      {error && <p style={{ color: "red" }}>{error}</p>}  {/* 에러 메시지 */}
+
       {!isLoading && !error && (
         <>
           <form onSubmit={handleAddMember} style={styles.form}>
